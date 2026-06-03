@@ -1,22 +1,347 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi primera pagina web</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Servicios Profesionales del Hogar</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f7fb;
+  color: #222;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  background: #111827;
+  color: white;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+  url('https://images.unsplash.com/photo-1505691723518-36a5ac3b2c46');
+  background-size: cover;
+  color: white;
+  padding: 120px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 42px;
+}
+
+/* BOTONES */
+.btn {
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 16px;
+}
+
+.btn-green {
+  background: #25D366;
+  color: white;
+}
+
+.btn-dark {
+  background: #111827;
+  color: white;
+}
+
+/* SERVICIOS */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card h3 {
+  margin: 10px;
+}
+
+/* CHAT */
+#chatBox {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  background: white;
+  border-radius: 12px;
+  display: none;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+#chatHeader {
+  background: #25D366;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+#chatBox input, #chatBox select {
+  width: 90%;
+  margin: 10px;
+  padding: 8px;
+}
+
+/* FLOAT BUTTONS */
+#callBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #2563eb;
+  color: white;
+  padding: 15px;
+  border-radius: 50px;
+  text-decoration: none;
+}
+
+#chatBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: white;
+  padding: 15px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>Hola, bienvenido a mi web</h1>
-    <p>Esta pagina fue creada con Visual Studio Code y Copilot.</p>
-  </header>
 
-  <main>
-    <button id="saludoBtn">Mostrar saludo</button>
-    <p id="mensaje"></p>
-  </main>
+<nav>
+  <div class="logo">
+  <span class="logo-icon">🛠️</span>
+  <span class="logo-text">HomeFix Pro</span>
+</div>
+  <div>
+    <a href="#services">Servicios</a>
+    <a href="/admin.html">Admin</a>
+    <select id="lang" onchange="changeLang()">
+      <option value="es">ES</option>
+      <option value="en">EN</option>
+    </select>
+  </div>
+</nav>
 
-  <script src="script.js"></script>
+<div class="hero">
+  <h1 id="title">Servicios Profesionales del Hogar</h1>
+  <p id="subtitle">Pintura · Electricidad · Reparaciones</p>
+
+  <button class="btn btn-green" onclick="openChat()">💬 Contacto</button>
+</div>
+
+<div class="container" id="services">
+
+<h2>Servicios</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952">
+    <h3>Pintura</h3>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4">
+    <h3>Electricidad</h3>
+  </div>
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea">
+    <h3>Reparaciones</h3>
+  </div>
+
+</div>
+</div>
+
+<!-- CHAT -->
+<div id="chatBox">
+  <div id="chatHeader">Asistente IA</div>
+
+  <input id="name" placeholder="Nombre"/>
+  <input id="phone" placeholder="Teléfono"/>
+  <select id="service">
+    <option>Pintura</option>
+    <option>Electricidad</option>
+    <option>Reparaciones</option>
+  </select>
+
+  <input id="msg" placeholder="Describe tu problema"/>
+
+  <button class="btn btn-green" onclick="sendWhatsApp()">Enviar</button>
+</div>
+
+<a id="callBtn" href="tel:+34622384653">📞 Llamar</a>
+<button id="chatBtn" onclick="toggleChat()">💬</button>
+
+<script>
+function toggleChat() {
+  const box = document.getElementById("chatBox");
+  box.style.display = box.style.display === "block" ? "none" : "block";
+}
+
+/* WhatsApp */
+function sendWhatsApp() {
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const service = document.getElementById("service").value;
+  const msg = document.getElementById("msg").value;
+
+  const text =
+    `Hola soy ${name}%0A` +
+    `Tel: ${phone}%0A` +
+    `Servicio: ${service}%0A` +
+    `Mensaje: ${msg}`;
+
+  window.open(`https://wa.me/34XXXXXXXXX?text=${text}`);
+}
+
+/* Multi idioma simple */
+function changeLang() {
+  const lang = document.getElementById("lang").value;
+
+  if (lang === "en") {
+    document.getElementById("title").innerText = "Professional Home Services";
+    document.getElementById("subtitle").innerText = "Painting · Electrical · Repairs";
+  } else {
+    document.getElementById("title").innerText = "Servicios Profesionales del Hogar";
+    document.getElementById("subtitle").innerText = "Pintura · Electricidad · Reparaciones";
+  }
+}
+</script>
+
 </body>
 </html>
+<!-- TESTIMONIOS -->
+<div class="container">
+  <h2>Clientes satisfechos</h2>
+  <p>Lo que dicen nuestros clientes sobre nuestros servicios</p>
+
+  <div class="testimonials">
+
+    <div class="testimonial-card">
+      <p>"Servicio excelente. Pintaron mi piso en un día y quedó perfecto."</p>
+      <h4>— María G.</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <p>"Muy profesionales con la instalación eléctrica. Rápidos y limpios."</p>
+      <h4>— José R.</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <p>"Me arreglaron varias cosas en casa el mismo día. 100% recomendados."</p>
+      <h4>— Laura M.</h4>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.testimonial-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  border-left: 5px solid #25D366;
+  transition: transform 0.2s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+.testimonial-card p {
+  font-style: italic;
+  color: #444;
+}
+
+.testimonial-card h4 {
+  margin-top: 10px;
+  color: #111827;
+}
+</style>
+<!-- SERVICIO 24H -->
+<div class="container">
+  <div class="service-24h">
+
+    <div class="badge-24h">🚨 24 HORAS</div>
+
+    <h2>Servicio de urgencias 24H</h2>
+
+    <p>
+      Atendemos incidencias del hogar las 24 horas del día, los 7 días de la semana.
+      Si tienes una avería urgente, no esperes: te ayudamos de inmediato.
+    </p>
+
+    <ul>
+      <li>⚡ Electricidad urgente</li>
+      <li>🚰 Averías de fontanería</li>
+      <li>🔧 Reparaciones rápidas en el hogar</li>
+      <li>🚪 Apertura y ajustes básicos</li>
+    </ul>
+
+    <a href="tel:+34622384653" class="btn-24h">
+      📞 Llamar urgencias ahora
+    </a>
+
+  </div>
+</div>
+<!-- SOBRE NOSOTROS -->
+<div class="container">
+  <div class="about-section">
+
+    <h2>Sobre nosotros</h2>
+
+    <p>
+      “Contamos con un equipo de profesionales altamente cualificados en diferentes áreas del mantenimiento del hogar.
+      Nuestro objetivo es ofrecer soluciones integrales, rápidas y eficientes, garantizando siempre un servicio de máxima calidad y confianza.”
+    </p>
+
+  </div>
+</div>

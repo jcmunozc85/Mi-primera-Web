@@ -36,3 +36,41 @@ button:hover {
   text-align: center;
   font-weight: bold;
 }
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.logo-icon {
+  background: #25D366;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin-right: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.logo-text {
+  color: white;
+}
+#callBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  padding: 15px 18px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#callBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
